@@ -13,7 +13,7 @@ const UserForm = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    if (isNameValid && isAgeValid) {
+    if (name && isNameValid && age && isAgeValid) {
       props.onNewUser({ id: uuid(), name: name, age: age });
       setName("");
       setAge("");
