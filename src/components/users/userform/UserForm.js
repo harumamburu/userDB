@@ -11,6 +11,15 @@ const UserForm = props => {
   const [age, setAge] = useState("");
   const [isAgeValid, setIsAgeValid] = useState(true);
 
+  const submitHandler = event => {
+    event.preventDefault();
+    if (isNameValid && isAgeValid) {
+      props.onNewUser({ id: uuid(), name: name, age: age });
+      setName("");
+      setAge("");
+    }
+  };
+
   const nameInputHandler = name => {
     setName(name);
     setIsNameValid(!!name && !name.match(/[\d]/));
@@ -23,7 +32,7 @@ const UserForm = props => {
 
   return (
     <Card>
-      <form>
+      <form onSubmit={submitHandler}>
         <Input
           label="Name"
           isValid={isNameValid}
