@@ -12,7 +12,14 @@
 .input input {
   width: 100%;
   border: 1px solid lightgray;
+  padding: 0.15rem;
 }
+
+.input input:focus {
+  outline: none;
+  border-color: purple;
+}
+
 
 .input.invalid label {
   color: darkred;
