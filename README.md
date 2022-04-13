@@ -15,6 +15,6 @@ A simple React demo app to add and list a set of users:
         * Input=> input: any ↑
 
 ### Interfaces:
-User:
-  name: string
-  age: number
+User:  
+&nbsp;&nbsp;name: string  
+&nbsp;&nbsp;age: number
