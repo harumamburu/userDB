@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
 import Input from "../../ui/Input";
+import Modal from "../../ui/Modal";
 
 const UserForm = props => {
   const [name, setName] = useState("");
@@ -49,6 +50,18 @@ const UserForm = props => {
           <Button type="submit">Add User</Button>
         </div>
       </form>
+      {!isNameValid && (
+        <Modal
+          header="Invalid Input"
+          content="Name shouldn't be empty or contain digits."
+        />
+      )}
+      {!isAgeValid && (
+        <Modal
+          header="Invalid Input"
+          content="Age shouldn't be less than zero."
+        />
+      )}
     </Card>
   );
 };
