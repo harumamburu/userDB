@@ -39,12 +39,14 @@ const UserForm = props => {
           isValid={isNameValid}
           onChange={nameInputHandler}
           type="text"
+          value={name}
         />
         <Input
           label="Age (Years)"
           onChange={ageInputHandler}
           isValid={isAgeValid}
           type="number"
+          value={age}
         />
         <div>
           <Button type="submit">Add User</Button>
