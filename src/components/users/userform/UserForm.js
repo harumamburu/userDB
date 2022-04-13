@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 
+import Button from "../../ui/Button";
 import Card from "../../ui/Card";
 import Input from "../../ui/Input";
 
@@ -45,7 +46,7 @@ const UserForm = props => {
           type="number"
         />
         <div>
-          <button type="submit">Add User</button>
+          <Button type="submit">Add User</Button>
         </div>
       </form>
     </Card>
