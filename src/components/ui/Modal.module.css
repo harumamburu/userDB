@@ -9,10 +9,6 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.not-active {
-  display: none;
-}
-
 .modal div {
   padding: 1rem;
 }

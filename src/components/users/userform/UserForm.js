@@ -11,6 +11,7 @@ const UserForm = props => {
   const [isNameValid, setIsNameValid] = useState(true);
   const [age, setAge] = useState("");
   const [isAgeValid, setIsAgeValid] = useState(true);
+  const [isModalActive, setIsModalActive] = useState(false);
 
   const submitHandler = event => {
     event.preventDefault();
@@ -21,14 +22,18 @@ const UserForm = props => {
     }
   };
 
+  const modalCloseHandler = () => setIsModalActive(false);
+
   const nameInputHandler = name => {
     setName(name);
     setIsNameValid(!!name && !name.match(/[\d]/));
+    setIsModalActive(!(!!name && !name.match(/[\d]/)));
   };
 
   const ageInputHandler = age => {
     setAge(age);
     setIsAgeValid(!!age && parseInt(age) > 0);
+    setIsModalActive(!(!!age && parseInt(age) > 0));
   };
 
   return (
@@ -52,18 +57,13 @@ const UserForm = props => {
           <Button type="submit">Add User</Button>
         </div>
       </form>
-      {!isNameValid && (
+      {((!isNameValid || !isAgeValid) && isModalActive) &&
         <Modal
+          onClose={modalCloseHandler}
           header="Invalid Input"
-          content="Name shouldn't be empty or contain digits."
+          content={[!isNameValid && "Name shouldn't be empty or contain digits.", !isAgeValid && "Age shouldn't be less than zero."]}
         />
-      )}
-      {!isAgeValid && (
-        <Modal
-          header="Invalid Input"
-          content="Age shouldn't be less than zero."
-        />
-      )}
+      }
     </Card>
   );
 };
