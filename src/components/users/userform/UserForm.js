@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 
 import Card from "../../ui/Card";
 import Input from "../../ui/Input";
-import styles from "./UserForm.module.css";
 
 const UserForm = props => {
   const [name, setName] = useState("");
