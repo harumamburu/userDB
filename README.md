@@ -2,7 +2,7 @@
 A simple React demo app to add and list a set of users:
 
 ### UI:
-<img src="UI.png" width="400" alt="Proposed UI">
+<img src="UI.png" width="500" alt="Proposed UI">
 
 ### Components:
 | Components Structire | Common UI components |
