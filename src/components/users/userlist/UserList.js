@@ -5,10 +5,10 @@ import styles from './UserList.module.css';
 
 const UserList = (props) => {
   return (
-    <Card>
-      <ul className={styles['list']}>
+    <Card className={styles['list']}>
+      <ul>
         {props.users.map((user) => (
-          <li key={user.id}>{user.name + ' (' + user.age + ' years old)'}</li>
+          <li key={user.id}>{`${user.name} (${user.age} years old)`}</li>
         ))}
       </ul>
     </Card>

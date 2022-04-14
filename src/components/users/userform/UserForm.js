@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import {v4 as uuid} from 'uuid';
 import {useState} from 'react';
+import {v4 as uuid} from 'uuid';
 
 import Button from '../../ui/Button';
 import Card from '../../ui/Card';
@@ -27,18 +27,28 @@ const UserForm = (props) => {
 
   const nameInputHandler = (name) => {
     setName(name);
-    setIsNameValid(!!name && !name.match(/[\d]/));
-    setIsModalActive(!(!!name && !name.match(/[\d]/)));
+    setIsNameValid(!!name && !name.match(/([\d]|^[\s]+$)/));
+    setIsModalActive(!(!!name && !name.match(/([\d]|^[\s]+$)/)));
   };
 
   const ageInputHandler = (age) => {
     setAge(age);
-    setIsAgeValid(!!age && parseInt(age) > 0);
-    setIsModalActive(!(!!age && parseInt(age) > 0));
+    setIsAgeValid(!!age && +age > 0);
+    setIsModalActive(!(!!age && +age > 0));
   };
 
   return (
     <Card>
+      {((!isNameValid || !isAgeValid) && isModalActive) &&
+        <Modal
+          onClose={modalCloseHandler}
+          header="Invalid Input"
+          content={[
+            !isNameValid && 'Name shouldn\'t be empty or contain digits.',
+            !isAgeValid && 'Age shouldn\'t be less than zero.',
+          ]}
+        />
+      }
       <form onSubmit={submitHandler}>
         <Input
           label="Name"
@@ -58,16 +68,6 @@ const UserForm = (props) => {
           <Button type="submit">Add User</Button>
         </div>
       </form>
-      {((!isNameValid || !isAgeValid) && isModalActive) &&
-        <Modal
-          onClose={modalCloseHandler}
-          header="Invalid Input"
-          content={[
-            !isNameValid && 'Name shouldn\'t be empty or contain digits.',
-            !isAgeValid && 'Age shouldn\'t be less than zero.',
-          ]}
-        />
-      }
     </Card>
   );
 };

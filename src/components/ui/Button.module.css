@@ -1,6 +1,7 @@
 .button {
-  background-color: purple;
+  font: inherit;
   color: white;
+  background-color: purple;
   border: 1px solid purple;
   padding: 0.3rem 1rem;
   cursor: pointer;
@@ -10,4 +11,8 @@
 .button:active {
   background-color: darkmagenta;
   border-color: darkmagenta;
+}
+
+.button:focus {
+  outline: none;
 }

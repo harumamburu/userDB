@@ -10,7 +10,7 @@ const App = () => {
     <div>
       <UserForm onNewUser={(user) =>
         setUsers((oldUsers) => [...oldUsers, user])} />
-      {users.length && <UserList users={users} />}
+      {users.length ? <UserList users={users} /> : ''}
     </div>
   );
 };
