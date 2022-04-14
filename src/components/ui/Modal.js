@@ -6,13 +6,14 @@ import styles from './Modal.module.css';
 
 const Modal = (props) => {
   return (
-    <div className={styles['backdrop']}>
+    <div>
+      <div className={styles['backdrop']} onClick={props.onClose} />
       <Card className={styles['modal']}>
         <header className={styles['header']}>
-          <h2>{props.header}</h2>
+          <h2>{props.title}</h2>
         </header>
         <div className={styles['content']}>
-          {props.content
+          {props.messages
               .filter((block) => !!block)
               .map((block, index) => (
                 <p key={index}>{block}</p>
@@ -29,8 +30,8 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-  header: PropTypes.string.isRequired,
-  content: PropTypes.array,
+  title: PropTypes.string.isRequired,
+  messages: PropTypes.array,
   onClose: PropTypes.func.isRequired,
 };
 

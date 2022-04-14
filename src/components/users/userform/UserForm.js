@@ -23,8 +23,6 @@ const UserForm = (props) => {
     }
   };
 
-  const modalCloseHandler = () => setIsModalActive(false);
-
   const nameInputHandler = (name) => {
     setName(name);
     setIsNameValid(!!name && !name.match(/([\d]|^[\s]+$)/));
@@ -41,9 +39,9 @@ const UserForm = (props) => {
     <Card>
       {((!isNameValid || !isAgeValid) && isModalActive) &&
         <Modal
-          onClose={modalCloseHandler}
-          header="Invalid Input"
-          content={[
+          onClose={() => setIsModalActive(false)}
+          title="Invalid Input"
+          messages={[
             !isNameValid && 'Name shouldn\'t be empty or contain digits.',
             !isAgeValid && 'Age shouldn\'t be less than zero.',
           ]}
