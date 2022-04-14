@@ -20,7 +20,6 @@
   border-color: purple;
 }
 
-
 .input.invalid label {
   color: darkred;
 }
@@ -28,8 +27,5 @@
 .input.invalid input {
   background-color: mistyrose;
   border-color: maroon;
-  box-shadow:
-    0 0 5px 1px darkred,
-    0 0 4px 2px red,
-    0 0 3px 3px salmon;
+  box-shadow: 0 0 5px 1px darkred, 0 0 4px 2px red, 0 0 3px 3px salmon;
 }
