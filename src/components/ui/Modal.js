@@ -6,23 +6,23 @@ import styles from './Modal.module.css';
 
 const Modal = (props) => {
   return (
-    <div className={styles['modal']}>
-      <Card className={styles['card']}>
-        <div className={styles['header']}>
-          <label>{props.header}</label>
-        </div>
-        <div>
+    <div className={styles['backdrop']}>
+      <Card className={styles['modal']}>
+        <header className={styles['header']}>
+          <h2>{props.header}</h2>
+        </header>
+        <div className={styles['content']}>
           {props.content
               .filter((block) => !!block)
               .map((block, index) => (
                 <p key={index}>{block}</p>
               ))}
         </div>
-        <div className={styles['button']}>
-          <Button onClick={props.onClose} type="button">
+        <footer className={styles['controls']}>
+          <Button onClick={props.onClose}>
             Okay
           </Button>
-        </div>
+        </footer>
       </Card>
     </div>
   );

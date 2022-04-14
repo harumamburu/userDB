@@ -64,9 +64,7 @@ const UserForm = (props) => {
           type="number"
           value={age}
         />
-        <div>
-          <Button type="submit">Add User</Button>
-        </div>
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );
