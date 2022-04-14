@@ -6,7 +6,7 @@ import styles from './Modal.module.css';
 
 const Modal = (props) => {
   return (
-    <div>
+    <>
       <div className={styles['backdrop']} onClick={props.onClose} />
       <Card className={styles['modal']}>
         <header className={styles['header']}>
@@ -25,7 +25,7 @@ const Modal = (props) => {
           </Button>
         </footer>
       </Card>
-    </div>
+    </>
   );
 };
 

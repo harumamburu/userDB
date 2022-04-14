@@ -7,11 +7,11 @@ const App = () => {
   const [users, setUsers] = useState([]);
 
   return (
-    <div>
+    <>
       <UserForm onNewUser={(user) =>
         setUsers((oldUsers) => [...oldUsers, user])} />
       {users.length ? <UserList users={users} /> : ''}
-    </div>
+    </>
   );
 };
 
