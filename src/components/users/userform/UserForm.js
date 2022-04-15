@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import {v4 as uuid} from 'uuid';
 
 import Button from '../../ui/Button';
@@ -7,60 +7,77 @@ import Card from '../../ui/Card';
 import Input from '../../ui/Input';
 import Modal from '../../ui/Modal';
 
-const UserForm = (props) => {
-  const [name, setName] = useState('');
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [age, setAge] = useState('');
-  const [isAgeValid, setIsAgeValid] = useState(true);
-  const [isModalActive, setIsModalActive] = useState(false);
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-    if (name && isNameValid && age && isAgeValid) {
-      props.onNewUser({id: uuid(), name: name, age: age});
-      setName('');
-      setAge('');
+const formStateReducer = (oldState, action) => {
+  const validation = (field, value) => {
+    switch (field) {
+      case 'name':
+        return !!!(value?.trim().length === 0 || value?.match(/([\d]|^[\s]+$)/));
+      case 'age':
+        return +value > 0;
+      default:
+        return false;
     }
   };
 
-  const nameInputHandler = (name) => {
-    setName(name);
-    setIsNameValid(!!name && !name.match(/([\d]|^[\s]+$)/));
-    setIsModalActive(!(!!name && !name.match(/([\d]|^[\s]+$)/)));
-  };
+  switch (action.type) {
+    case 'INPUT':
+      return {
+        value: action.value,
+        isValid: validation(action.field, action.value),
+      };
+    case 'RESET':
+    default:
+      return {value: '', isValid: null};
+  }
+};
 
-  const ageInputHandler = (age) => {
-    setAge(age);
-    setIsAgeValid(!!age && +age > 0);
-    setIsModalActive(!(!!age && +age > 0));
+const UserForm = (props) => {
+  const [nameState, dispatchName] = useReducer(formStateReducer, {value: '', isValid: null});
+  const [ageState, dispatchAge] = useReducer(formStateReducer, {value: '', isValid: null});
+  const [isModalActive, setIsModalActive] = useState(null);
+
+  useEffect(() => {
+    const validationTimeout = setTimeout(() => {
+      setIsModalActive(nameState.isValid === false || ageState.isValid === false);
+    }, 700);
+    return () => clearTimeout(validationTimeout);
+  }, [nameState.isValid, ageState.isValid]);
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (nameState.isValid && ageState.isValid) {
+      props.onNewUser({id: uuid(), name: nameState.value, age: ageState.value});
+      dispatchName({type: 'RESET', field: 'name'});
+      dispatchAge({type: 'RESET', field: 'age'});
+    }
   };
 
   return (
     <Card>
-      {((!isNameValid || !isAgeValid) && isModalActive) &&
+      {(isModalActive === true) &&
         <Modal
           onClose={() => setIsModalActive(false)}
           title="Invalid Input"
           messages={[
-            !isNameValid && 'Name shouldn\'t be empty or contain digits.',
-            !isAgeValid && 'Age shouldn\'t be less than zero.',
+            nameState.isValid === false && 'Name shouldn\'t be empty or contain digits.',
+            ageState.isValid === false && 'Age shouldn\'t be less than zero.',
           ]}
         />
       }
       <form onSubmit={submitHandler}>
         <Input
           label="Name"
-          isValid={isNameValid}
-          onChange={nameInputHandler}
           type="text"
-          value={name}
+          value={nameState.value}
+          isInvalid={nameState.isValid === false}
+          onChange={(value) => dispatchName({type: 'INPUT', field: 'name', value: value})}
         />
         <Input
           label="Age (Years)"
-          onChange={ageInputHandler}
-          isValid={isAgeValid}
           type="number"
-          value={age}
+          value={ageState.value}
+          isInvalid={ageState.isValid === false}
+          onChange={(value) => dispatchAge({type: 'INPUT', field: 'age', value: value})}
         />
         <Button type="submit">Add User</Button>
       </form>
