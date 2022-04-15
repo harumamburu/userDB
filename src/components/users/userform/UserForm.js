@@ -25,7 +25,12 @@ const formStateReducer = (oldState, action) => {
         value: action.value,
         isValid: validation(action.field, action.value),
       };
-    case 'RESET':
+    case 'INPUT_BLUR':
+      return {
+        value: oldState.value,
+        isValid: validation(action.field, oldState.value),
+      };
+    case 'INPUT_RESET':
     default:
       return {value: '', isValid: null};
   }
@@ -47,8 +52,8 @@ const UserForm = (props) => {
     event.preventDefault();
     if (nameState.isValid && ageState.isValid) {
       props.onNewUser({id: uuid(), name: nameState.value, age: ageState.value});
-      dispatchName({type: 'RESET', field: 'name'});
-      dispatchAge({type: 'RESET', field: 'age'});
+      dispatchName({type: 'INPUT_RESET', field: 'name'});
+      dispatchAge({type: 'INPUT_RESET', field: 'age'});
     }
   };
 
@@ -60,24 +65,28 @@ const UserForm = (props) => {
           title="Invalid Input"
           messages={[
             nameState.isValid === false && 'Name shouldn\'t be empty or contain digits.',
-            ageState.isValid === false && 'Age shouldn\'t be less than zero.',
+            ageState.isValid === false && 'Age shouldn\'t be empty or less than zero.',
           ]}
         />
       }
       <form onSubmit={submitHandler}>
         <Input
-          label="Name"
+          id="name"
           type="text"
+          label="Name"
           value={nameState.value}
           isInvalid={nameState.isValid === false}
           onChange={(value) => dispatchName({type: 'INPUT', field: 'name', value: value})}
+          onBlur={() => dispatchName({type: 'INPUT_BLUR', field: 'name'})}
         />
         <Input
-          label="Age (Years)"
+          id="age"
           type="number"
+          label="Age (Years)"
           value={ageState.value}
           isInvalid={ageState.isValid === false}
           onChange={(value) => dispatchAge({type: 'INPUT', field: 'age', value: value})}
+          onBlur={() => dispatchAge({type: 'INPUT_BLUR', field: 'age'})}
         />
         <Button type="submit">Add User</Button>
       </form>
